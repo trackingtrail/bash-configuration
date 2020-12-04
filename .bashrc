@@ -77,7 +77,7 @@ alias dd='dd status=progress'
 alias _='sudo'
 alias _i='sudo -i'
 alias lsd='ls -d */'
-alias htb='sudo openvpn /home/johndoe/Desktop/main/pentesting/pentesting/HTB/BatterySoup.ovpn'
+alias htb='sudo openvpn /home/johndoe/Desktop/main/pentesting/pentesting/HTB/BatterySoup.ovpn' #this is my HackTheBox openvpn alias.
 
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
@@ -91,6 +91,8 @@ if ! shopt -oq posix; then
   fi
 fi
 
+# user-defined functions (credits: https://github.com/jaivardhankapoor/bestbash/blob/master/functions)
+
 mkcd() {
   if [ $# != 1 ]; then
     echo "Usage: mkcd <dir>"
@@ -98,3 +100,43 @@ mkcd() {
     mkdir -p $1 && cd $1
   fi
 }
+
+if which systemctl &>/dev/null; then
+  start() {
+    sudo systemctl start $1.service
+  }
+  restart() {
+    sudo systemctl restart $1.service
+  }
+  stop() {
+    sudo systemctl stop $1.service
+  }
+  enable() {
+    sudo systemctl enable $1.service
+  }
+  status() {
+    sudo systemctl status $1.service
+  }
+  disable() {
+    sudo systemctl disable $1.service
+  }
+fi
+
+lowercase() {
+  for file ; do
+    filename=${file##*/}
+    case "$filename" in
+      */* ) dirname==${file%/*} ;;
+      * ) dirname=.;;
+    esac
+    nf=$(echo $filename | tr A-Z a-z)
+    newname="${dirname}/${nf}"
+    if [[ "$nf" != "$filename" ]]; then
+      mv "$file" "$newname"
+      echo "lowercase: $file --> $newname"
+    else
+      echo "lowercase: $file not changed."
+    fi
+  done
+}
+
