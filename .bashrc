@@ -26,7 +26,7 @@ case "$TERM" in
 esac
 
 if [ "$color_prompt" = yes ]; then
-    PS1="\[\033[0;31m\]\342\224\214\342\224\200\$([[ \$? != 0 ]] && echo \"[\[\033[0;31m\]\342\234\227\[\033[0;37m\]]\342\224\200\")[$(if [[ ${EUID} == 1 ]]; then echo '\[\033[01;31m\]root\[\033[01;33m\]☺\[\033[01;96m\]\h'; else echo '\[\033[0;39m\]\u\[\033[01;33m\]☺\[\033[01;96m\]\h'; fi)\[\033[0;31m\]]\342\224\200[\[\033[0;32m\]\w\[\033[0;31m\]]\n\[\033[0;31m\]\342\224\224\342\224\200\342\224\200\342\225\274 \[\033[0m\]\[\e[01;33m\]\\$\[\e[0m\]"
+    PS1="\[\033[0;31m\]\342\224\214\342\224\200\$([[ \$? != 0 ]] && echo \"[\[\033[0;31m\]\342\234\227\[\033[0;37m\]]\342\224\200\")[$(if [[ ${EUID} == 1 ]]; then echo '\[\033[01;31m\]root\[\033[01;33m\]☺\[\033[01;96m\]\h'; else echo '\[\033[0;39m\]\u\[\033[01;33m\]☺\[\033[01;96m\]\h'; fi)\[\033[0;31m\]]\34	2\224\200[\[\033[0;32m\]\w\[\033[0;31m\]]\n\[\033[0;31m\]\342\224\224\342\224\200\342\224\200\342\225\274 \[\033[0m\]\[\e[01;33m\]\\$\[\e[0m\]"
 else
     PS1='┌──[\u@\h]─[\w]\n└──╼ \$ '
 fi
@@ -61,8 +61,11 @@ esac
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
+    alias ymp3='youtube-dl -x --audio-format mp3 --prefer-ffmpeg ' #downloads youtube-mp3
+    alias "c=xclip"
     alias lastten='history | tail'
-    alias college='cd /home/johndoe/Desktop/main/college_work'
+    alias rot13="tr 'A-Za-z' 'N-ZA-Mn-za-m'"
+    alias cls='clear'
     alias v='vim'
     alias rmd='sudo rmdir'
     alias dir='dir --color=auto'
@@ -77,7 +80,7 @@ alias dd='dd status=progress'
 alias _='sudo'
 alias _i='sudo -i'
 alias lsd='ls -d */'
-alias htb='sudo openvpn /home/johndoe/Desktop/main/pentesting/pentesting/HTB/BatterySoup.ovpn' #this is my HackTheBox openvpn alias.
+alias htb='sudo openvpn /home/johndoe/desktop/main/pentesting/pentesting/HTB/BatterySoup.ovpn' #this is my HackTheBox openvpn alias.
 
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
@@ -122,21 +125,8 @@ if which systemctl &>/dev/null; then
   }
 fi
 
-lowercase() {
-  for file ; do
-    filename=${file##*/}
-    case "$filename" in
-      */* ) dirname==${file%/*} ;;
-      * ) dirname=.;;
-    esac
-    nf=$(echo $filename | tr A-Z a-z)
-    newname="${dirname}/${nf}"
-    if [[ "$nf" != "$filename" ]]; then
-      mv "$file" "$newname"
-      echo "lowercase: $file --> $newname"
-    else
-      echo "lowercase: $file not changed."
-    fi
-  done
-}
-
+force_color_prompt=yes
+export http_proxy=''
+export https_proxy=''
+export ftp_proxy=''
+export socks_proxy=''
